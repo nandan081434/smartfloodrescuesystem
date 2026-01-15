@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile | Flood Rescue</title>
+  <link rel="stylesheet" href="profile.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <button class="back-btn" onclick="goHome()">←</button>
+  <h2>My Profile</h2>
+</div>
+
+<!-- Profile Card -->
+<div class="profile-wrapper">
+
+  <div class="profile-card">
+
+    <div class="avatar">
+      <span>👤</span>
+    </div>
+
+    <h3 id="userName">Citizen User</h3>
+    <p id="userEmail">email@example.com</p>
+
+    <div class="info-list">
+      <div class="info-item">
+        <span>📞 Phone</span>
+        <strong id="userPhone">----------</strong>
+      </div>
+
+      <div class="info-item">
+        <span>👤 Role</span>
+        <strong id="userRole">Citizen</strong>
+      </div>
+
+      <div class="info-item">
+        <span>📍 Location</span>
+        <strong id="userLocation">---</strong>
+      </div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+  </div>
+
+</div>
+
+<script src="profile.js"></script>
+</body>
+</html>

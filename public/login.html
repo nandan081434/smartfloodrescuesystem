@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Flood Rescue Guidance System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="welcome-bg">
+
+<div class="auth-card">
+
+  <img src="assets/logo.png.png" class="auth-logo" alt="Logo">
+
+  <h2 class="auth-title">Login</h2>
+  <p class="auth-subtitle">Enter your details to continue</p>
+
+  <!-- EMAIL -->
+  <input
+    type="email"
+    id="loginEmail"
+    placeholder="Email address"
+    class="auth-input"
+  >
+
+  <!-- LOCATION -->
+  <input
+    type="text"
+    id="loginLocation"
+    placeholder="Location (City / Area)"
+    class="auth-input"
+  >
+
+  <button
+    type="button"
+    class="location-btn"
+    onclick="getLoginLocation()"
+  >
+    📍 Use my current location
+  </button>
+
+  <!-- PASSWORD -->
+  <input
+    type="password"
+    id="loginPassword"
+    placeholder="Password"
+    class="auth-input"
+  >
+
+  <!-- LOGIN -->
+  <button class="auth-btn" onclick="login()">Login</button>
+
+  <p class="auth-footer">
+    <a href="forgot-password.html">Forgot password?</a>
+  </p>
+
+  <p class="auth-footer">
+    Don’t have an account?
+    <a href="signup.html">Sign Up</a>
+  </p>
+
+  <p class="auth-footer">
+    ← <a href="index.html">Back to Welcome</a>
+  </p>
+
+</div>
+
+<!-- LOCATION SCRIPT -->
+<script>
+function getLoginLocation() {
+  const locInput = document.getElementById("loginLocation");
+
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lat = pos.coords.latitude.toFixed(5);
+      const lon = pos.coords.longitude.toFixed(5);
+      locInput.value = `Lat: ${lat}, Lng: ${lon}`;
+    },
+    () => alert("Please allow location access")
+  );
+}
+</script>
+
+<!-- 🔥 FIREBASE LOGIN -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  /* ✅ SAME CONFIG AS SIGNUP */
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDc8peb4i19Rku8smgr5BwLxt0WMB9Gjw",
+    authDomain: "flood-rescue-guide-ac3a8.firebaseapp.com",
+    projectId: "flood-rescue-guide-ac3a8",
+    storageBucket: "flood-rescue-guide-ac3a8.appspot.com",
+    messagingSenderId: "635830559756",
+    appId: "1:635830559756:web:xxxxxx"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  /* 🔁 AUTO LOGIN */
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = "citizen-home/home.html";
+    }
+  });
+
+  /* 🔐 MANUAL LOGIN */
+  window.login = async function () {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const location = document.getElementById("loginLocation").value;
+
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+
+      /* ✅ Save session for Profile page */
+      localStorage.setItem("floodUser", JSON.stringify({
+        name: "Citizen User",
+        email: email,
+        phone: "",
+        role: "citizen",
+        location: location || ""
+      }));
+
+      window.location.href = "citizen-home/home.html";
+
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+</script>
+
+</body>
+</html>

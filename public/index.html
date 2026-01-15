@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flood Rescue Guidance System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="welcome-bg">
+
+    <div class="welcome-card">
+
+        <!-- LOGO -->
+        <img src="assets/logo.png.png" alt="Logo" class="welcome-logo">
+
+        <!-- APP NAME -->
+        <h1 class="welcome-title">
+            Flood Rescue Guidance<br>System
+        </h1>
+
+        <!-- DESCRIPTION -->
+        <p class="welcome-desc">
+            A smart map-based system to guide rescue teams and citizens during
+            flood emergencies.
+        </p>
+
+        <!-- LOGIN -->
+        <a href="login.html" class="btn login-btn">Login</a>
+
+        <!-- SIGN UP -->
+        <a href="signup.html" class="btn signup-btn">Sign Up</a>
+
+        <!-- GOOGLE SIGN IN -->
+        <button class="btn google-btn" onclick="googleSignIn()">
+            <img
+                src="https://developers.google.com/identity/images/g-logo.png"
+                alt="Google"
+            />
+            Sign in with Google
+        </button>
+
+    </div>
+
+    <!-- 🔥 Firebase Google Auth Script -->
+    <script type="module" src="js/firebase-auth.js"></script>
+
+</body>
+</html>
+

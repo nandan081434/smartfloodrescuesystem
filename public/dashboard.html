@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Disaster Rescue Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+</head>
+<body>
+
+<div id="loader">
+  <div class="spinner"></div>
+  <p>Loading Dashboard...</p>
+</div>
+
+<div id="map"></div>
+
+<div class="sidebar">
+  <h2>🚨 Rescue App</h2>
+  <a href="#">📍 Live Map</a>
+  <a href="#">🚑 Rescue Teams</a>
+  <a href="#">📢 Alerts</a>
+  <a href="#">⚙ Settings</a>
+  <a href="/login">🚪 Logout</a>
+</div>
+
+<div class="center-box" style="margin-left:240px;">
+  <div class="card">
+    <h1>Live Disaster Monitoring</h1>
+    <p>Real-time navigation & emergency response</p>
+    <button class="btn-green">Send Rescue Team</button>
+    <button class="btn-blue" style="margin-top:10px;">Issue Alert</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="js/map.js"></script>
+<script src="js/loader.js"></script>
+
+</body>
+</html>
