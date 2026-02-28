@@ -1,0 +1,20 @@
+{
+  "safe_default": [
+    "Please stay alert and avoid unnecessary movement.",
+    "Remain indoors and monitor the situation.",
+    "Keep your phone charged and stay calm."
+  ],
+  "unsafe_area": [
+    "Your area is prone to flooding based on past events.",
+    "Please move to a higher floor if possible.",
+    "Do not step into flowing water."
+  ],
+  "movement_warning": [
+    "Moving during floods is risky.",
+    "Please stay where you are unless water enters your home."
+  ],
+  "rescue_triggered": [
+    "Your location has been shared with rescue teams.",
+    "Please stay visible and conserve phone battery."
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "emergency": ["help", "rescue", "trapped", "stuck", "water inside", "flooded", "emergency"],
+  "movement": ["go outside", "move", "walk", "drive", "road", "route"],
+  "safety_check": ["safe", "is my area safe", "danger"]
+}

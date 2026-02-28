@@ -1,0 +1,123 @@
+/* ---------- GLOBAL ---------- */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f5f7fb;
+    color: #111827;
+}
+
+/* ---------- MAIN CONTAINER ---------- */
+.container {
+    max-width: 820px;
+    margin: 25px auto;
+    background: #ffffff;
+    padding: 16px 18px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- TITLE ---------- */
+h2 {
+    margin: 0 0 12px 0;
+    text-align: center;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* ---------- CHAT AREA ---------- */
+#chat {
+    height: 420px;
+    overflow-y: auto;
+    border: 1px solid #e5e7eb;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+/* ---------- USER MESSAGE ---------- */
+.user {
+    text-align: right;
+    margin: 10px 0;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+/* ---------- AI MESSAGE (CARD STYLE) ---------- */
+.ai {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: #ecfdf5;
+    border-left: 4px solid #10b981;
+    border-radius: 8px;
+    color: #065f46;
+    white-space: pre-line;
+    line-height: 1.45;
+}
+
+/* ---------- INPUT SECTION ---------- */
+.input-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+/* ---------- SEND BUTTON ---------- */
+button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+/* ---------- QUICK ACTION BUTTONS ---------- */
+.quick-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-actions button {
+    background: #e0f2fe;
+    border: 1px solid #38bdf8;
+    color: #0369a1;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.quick-actions button:hover {
+    background: #bae6fd;
+}
+
+/* ---------- SCROLLBAR (OPTIONAL NICE TOUCH) ---------- */
+#chat::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 10px;
+}

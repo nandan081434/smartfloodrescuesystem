@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flood Safety AI</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+</head>
+
+<body>
+  <button class="back-btn" onclick="goBackHome()">⬅ Back</button>
+  <script>
+function goBackHome() {
+    window.location.href = "../../../../home.html";
+    
+}
+</script>
+  <div class="chat-box">
+    <h2>Flood Safety AI</h2>
+
+    <div id="chat"></div>
+
+   <div class="controls">
+  <input id="userInput" placeholder="Ask about flood safety..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT MUST BE LAST -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "risk_levels": {
+    "low": {
+      "advice": "Stay alert."
+    },
+    "moderate": {
+      "advice": "Avoid movement."
+    },
+    "high": {
+      "advice": "Move to a higher floor and wait for rescue."
+    }
+  }
+}
+    
