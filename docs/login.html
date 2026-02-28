@@ -47,6 +47,13 @@
     class="auth-input"
   >
 
+  <!-- ROLE SELECTION -->
+  <select id="userRoleSelect" class="auth-input">
+    <option value="">Select Role</option>
+    <option value="citizen">Citizen</option>
+    <option value="rescue">Rescue Team</option>
+  </select>
+
   <!-- LOGIN -->
   <button class="auth-btn" onclick="login()">Login</button>
 
@@ -86,64 +93,36 @@ function getLoginLocation() {
 }
 </script>
 
-<!-- 🔥 FIREBASE LOGIN -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<!-- LOCAL ROLE-BASED LOGIN -->
+<script>
+function login() {
 
-  /* ✅ SAME CONFIG AS SIGNUP */
-  const firebaseConfig = {
-    apiKey: "AIzaSyDDc8peb4i19Rku8smgr5BwLxt0WMB9Gjw",
-    authDomain: "flood-rescue-guide-ac3a8.firebaseapp.com",
-    projectId: "flood-rescue-guide-ac3a8",
-    storageBucket: "flood-rescue-guide-ac3a8.appspot.com",
-    messagingSenderId: "635830559756",
-    appId: "1:635830559756:web:xxxxxx"
-  };
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const location = document.getElementById("loginLocation").value.trim();
+  const role = document.getElementById("userRoleSelect").value;
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  if (!email || !password || !role) {
+    alert("Please fill all fields and select role");
+    return;
+  }
 
-  /* 🔁 AUTO LOGIN */
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      window.location.href = "citizen-home/home.html";
-    }
-  });
+  // Save user session
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userRole", role);
 
-  /* 🔐 MANUAL LOGIN */
-  window.login = async function () {
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-    const location = document.getElementById("loginLocation").value;
+  if (location) {
+    localStorage.setItem("loginLocation", location);
+  }
 
-    if (!email || !password) {
-      alert("Please enter email and password");
-      return;
-    }
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-
-      /* ✅ Save session for Profile page */
-      localStorage.setItem("floodUser", JSON.stringify({
-        name: "Citizen User",
-        email: email,
-        phone: "",
-        role: "citizen",
-        location: location || ""
-      }));
-
-      window.location.href = "citizen-home/home.html";
-
-    } catch (err) {
-      alert(err.message);
-    }
-  };
+  // Redirect based on role
+  if (role === "citizen") {
+    window.location.href = "citizen-home/home.html";
+  }
+  else if (role === "rescue") {
+    window.location.href = "rescue-dashboard/home.html";
+  }
+}
 </script>
 
 </body>

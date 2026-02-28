@@ -1,0 +1,172 @@
+/* 🔹 Page Background */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: white;
+}
+
+/* 🔹 Top Panel */
+.top-panel {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* 🔹 Alert Status Box */
+.alert {
+    font-size: 28px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* SAFE */
+.alert.SAFE {
+    background: #2ecc71;
+    box-shadow: 0 0 15px #2ecc71;
+}
+
+/* WARNING */
+.alert.WARNING {
+    background: orange;
+    box-shadow: 0 0 15px orange;
+}
+
+/* EMERGENCY */
+.alert.EMERGENCY {
+    background: red;
+    box-shadow: 0 0 20px red;
+    animation: pulse 1.5s infinite;
+}
+
+/* 🔹 Pulse Animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 🔹 Info Text */
+.info {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* 🔹 Button */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #2a5298;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: #f1f1f1;
+}
+
+/* 🔹 Map */
+#map {
+    height: 70vh;
+    margin: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* 🔹 Rescue Alerts Section */
+.alerts-container {
+    margin: 20px;
+}
+
+.rescue-alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Emergency Firestore Alert */
+.rescue-alert.emergency {
+    background: red;
+    box-shadow: 0 0 15px red;
+}
+
+/* Warning */
+.rescue-alert.warning {
+    background: orange;
+}
+
+/* Info */
+.rescue-alert.info {
+    background: #3498db;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.alerts-container {
+  margin-top: 30px;
+}
+
+.alert-card {
+  background: #1e2f4d;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.alert-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.alert-card p {
+  margin: 8px 0;
+}
+
+.type {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.type.emergency {
+  background: red;
+}
+
+.type.warning {
+  background: orange;
+}
+
+.type.safe {
+  background: green;
+}
+.rescue-alert-card {
+  background: #ff4d4d;
+  color: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0px red; }
+  50% { box-shadow: 0 0 20px red; }
+  100% { box-shadow: 0 0 0px red; }
+}

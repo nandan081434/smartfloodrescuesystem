@@ -1,0 +1,310 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins, system-ui, sans-serif;
+}
+
+body {
+  background: #f4f7fb;
+  display: flex;
+  height: 100vh;
+}
+
+/* SIDEBAR (OLD – KEPT BUT HIDDEN LATER) */
+.sidebar {
+  width: 72px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.logo {
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 14px;
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+  background: #e0f2fe;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+.top-bar {
+  height: 64px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.top-actions input {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+/* hide search (kept) */
+.top-actions input {
+  display: none;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CONTENT */
+.content {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  width: 260px;
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#2563eb,#38bdf8);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.profile-card h3,
+.profile-card .email {
+  text-align: center;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: 12px;
+  margin: 14px 0;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+  flex: 1;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  padding: 18px;
+  border-radius: 18px;
+}
+
+/* TABLE */
+.table-card {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 10px 0;
+}
+
+/* BADGES */
+.badge.active {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.badge.done {
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+/* ================= HIDE OLD ICON SIDEBAR (ADD ONLY) ================= */
+.sidebar {
+  position: fixed;
+  left: -300px;
+  top: 0;
+  height: 100vh;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body {
+  display: block;
+}
+
+.main {
+  width: 100%;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* =========================================================
+   ✅ FINAL OVERRIDE – HOME PAGE STYLE TASKBAR (ADD ONLY)
+========================================================= */
+
+.home-taskbar {
+  position: fixed;
+  top: 120px;
+  left: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 2000;
+}
+
+/* Base button (BLACK) */
+.home-taskbar button {
+  width: 240px;
+  height: 60px;
+
+  background: #0f172a;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 24px;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 24px;
+
+  cursor: pointer;
+
+  box-shadow: 0 16px 36px rgba(0,0,0,0.45);
+  transition: all 0.35s ease;
+}
+
+/* Hover */
+.home-taskbar button:hover {
+  transform: translateX(10px) scale(1.04);
+  background: #1f2937;
+}
+
+/* ACTIVE PAGE (PROFILE) – BLUE + ANIMATED */
+.home-taskbar button.active {
+  background: #2563eb;
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,0.35),
+    0 20px 45px rgba(37,99,235,0.7);
+  animation: taskbarPulse 1.8s infinite;
+}
+
+/* Pulse animation */
+@keyframes taskbarPulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(37,99,235,0.6),
+      0 20px 45px rgba(37,99,235,0.7);
+  }
+  70% {
+    box-shadow:
+      0 0 0 16px rgba(37,99,235,0),
+      0 20px 45px rgba(37,99,235,0.7);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(37,99,235,0),
+      0 20px 45px rgba(37,99,235,0.7);
+  }
+}
+
+/* SOS BUTTON (RED) */
+.home-taskbar .sos-btn {
+  background: #7f1d1d;
+  font-weight: 600;
+}
+
+.home-taskbar .sos-btn:hover {
+  background: #dc2626;
+}
+
+/* Align content with taskbar */
+.content {
+  padding-left: 260px;
+}
+/* ================= ADD ONLY: REDUCE TASKBAR WIDTH ================= */
+
+/* Reduce overall taskbar button width */
+.home-taskbar button {
+  width: 190px !important;   /* was ~240px */
+  height: 54px !important;   /* slightly shorter */
+  font-size: 15px !important;
+  padding-left: 20px !important;
+  border-radius: 20px !important;
+}
+
+/* Reduce gap between icon & text */
+.home-taskbar button {
+  gap: 12px !important;
+}
+
+/* Adjust content spacing to match smaller taskbar */
+.content {
+  padding-left: 230px !important;
+}

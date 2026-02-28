@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rescue Team Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✅ CORRECT CSS LINK -->
+  <link rel="stylesheet" href="profile1.css">
+</head>
+
+<body>
+
+<!-- FLOATING TASKBAR -->
+<div class="home-taskbar">
+  <button class="active">👤 Profile</button>
+  <button>💡 Suggestion Box</button>
+  <button onclick="location.href='../home.html'">🏠 Home</button>
+  <button class="sos-btn" onclick="location.href='../sos.html'">🚨 SOS</button>
+  <button onclick="location.href='../alerts.html'">🔔 Alerts</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <h2>Rescue Team Profile</h2>
+    <div class="user-avatar">👤</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+      <div class="profile-avatar">🧑‍🚒</div>
+      <h3>Rescue Team</h3>
+      <p class="email">rescue@email.com</p>
+
+      <div class="profile-info">
+        <div><span>Phone</span><strong>-</strong></div>
+        <div><span>Role</span><strong>Rescue Team</strong></div>
+        <div><span>Location</span><strong>-</strong></div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+
+      <!-- STATS -->
+      <div class="stats">
+        <div class="stat-card">
+          <h3>0</h3>
+          <p>SOS Solved</p>
+        </div>
+        <div class="stat-card">
+          <h3>0</h3>
+          <p>Alerts</p>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-card">
+        <h3>SOS Solved History</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>15 Oct</td>
+              <td>Secunderabad</td>
+              <td><span class="badge done">Resolved</span></td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td>01 Nov</td>
+              <td>Hyderabad</td>
+              <td><span class="badge done">Resolved</span></td>
+              <td>High</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

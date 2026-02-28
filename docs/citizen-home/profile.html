@@ -1,54 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Profile | Flood Rescue</title>
-  <link rel="stylesheet" href="profile.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Dashboard Profile | Flood Rescue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="dashboard-profile.css" />
 </head>
+
 <body>
 
-<!-- Top Bar -->
-<div class="top-bar">
-  <button class="back-btn" onclick="goHome()">←</button>
-  <h2>My Profile</h2>
+<!-- ================= HOME STYLE TASKBAR ================= -->
+<div class="home-taskbar">
+  <button class="active">👤 Profile</button>
+  <button>💡 Suggestion Box</button>
+  <button onclick="location.href='home.html'">🏠 Home</button>
+  <button class="sos-btn" onclick="location.href='sos.html'">🚨 SOS</button>
+  <button>🔔 Alerts</button>
 </div>
 
-<!-- Profile Card -->
-<div class="profile-wrapper">
+<!-- MAIN -->
+<main class="main">
 
-  <div class="profile-card">
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <h2>Client Profile</h2>
+    <div class="top-actions">
+      <input type="text" placeholder="Search" />
+      <div class="user-avatar">👤</div>
+    </div>
+  </header>
 
-    <div class="avatar">
-      <span>👤</span>
+  <!-- CONTENT -->
+  <section class="content">
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+      <div class="profile-avatar">👤</div>
+      <h3>Citizen User</h3>
+      <p class="email">nandan2@gmail.com</p>
+
+      <button class="primary-btn" id="openSOS2">Add New SOS</button>
+
+      <div class="profile-info">
+        <div><span>Phone</span><strong>9392010685</strong></div>
+        <div><span>Role</span><strong>Citizen</strong></div>
+        <div><span>Location</span><strong>Hyderabad</strong></div>
+      </div>
     </div>
 
-    <h3 id="userName">Citizen User</h3>
-    <p id="userEmail">email@example.com</p>
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
 
-    <div class="info-list">
-      <div class="info-item">
-        <span>📞 Phone</span>
-        <strong id="userPhone">----------</strong>
+      <!-- STATS -->
+      <div class="stats">
+        <div class="stat-card">
+          <h4>0</h4>
+          <p>Active SOS</p>
+        </div>
+        <div class="stat-card">
+          <h4>0</h4>
+          <p>Alerts</p>
+        </div>
       </div>
 
-      <div class="info-item">
-        <span>👤 Role</span>
-        <strong id="userRole">Citizen</strong>
+      <!-- TABLE -->
+      <div class="table-card">
+        <h3>SOS History</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>29 Sep</td>
+              <td>Hyderabad</td>
+              <td><span class="badge active">Active</span></td>
+              <td>High</td>
+            </tr>
+            <tr>
+              <td>15 Oct</td>
+              <td>Secunderabad</td>
+              <td><span class="badge done">Resolved</span></td>
+              <td>Medium</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="info-item">
-        <span>📍 Location</span>
-        <strong id="userLocation">---</strong>
-      </div>
     </div>
+  </section>
+</main>
 
-    <button class="logout-btn" onclick="logout()">Logout</button>
-
+<!-- ================= SOS POPUP ================= -->
+<div class="sos-overlay" id="sosOverlay">
+  <div class="sos-box">
+    <span class="close-btn" id="closeSOS">✖</span>
+    <h3>🚨 Emergency SOS</h3>
+    <p>Enter your name</p>
+    <input type="text" id="sosName" placeholder="Your name" />
+    <button id="sendSOS">Send SOS</button>
   </div>
-
 </div>
 
-<script src="profile.js"></script>
+<!-- ================= FIREBASE (UNCHANGED) ================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDDc8peb4i19Rku8smgr5BwLxt0WMB9Gjw",
+  authDomain: "flood-rescue-guide-ac3a8.firebaseapp.com",
+  projectId: "flood-rescue-guide-ac3a8",
+  storageBucket: "flood-rescue-guide-ac3a8.appspot.com",
+  messagingSenderId: "635830559756",
+  appId: "1:635830559756:web:xxxxxx"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+
+  document.querySelector(".profile-card h3").innerText = data.name || "Citizen User";
+  document.querySelector(".profile-card .email").innerText = data.email || user.email;
+
+  const info = document.querySelectorAll(".profile-info strong");
+  info[0].innerText = data.phone || "-";
+  info[1].innerText = data.role || "Citizen";
+  info[2].innerText = data.location || "-";
+
+  const stats = document.querySelectorAll(".stat-card h4");
+  stats[0].innerText = data.activeSOS ?? 0;
+  stats[1].innerText = data.alerts ?? 0;
+});
+</script>
+
+<!-- ================= SOS POPUP SCRIPT ================= -->
+<script>
+const overlay = document.getElementById("sosOverlay");
+const openBtns = [document.getElementById("openSOS2")];
+const closeBtn = document.getElementById("closeSOS");
+
+openBtns.forEach(btn => btn.onclick = () => overlay.classList.add("show"));
+closeBtn.onclick = () => overlay.classList.remove("show");
+
+document.getElementById("sendSOS").onclick = () => {
+  const name = document.getElementById("sosName").value.trim();
+  if (!name) return alert("Please enter your name");
+  alert("🚨 SOS Sent for " + name);
+  overlay.classList.remove("show");
+};
+</script>
+
+<!-- ================= ADD ONLY: AVATAR UPLOAD + ANIMATION ================= -->
+<script>
+const avatar = document.querySelector(".profile-avatar");
+
+const avatarInput = document.createElement("input");
+avatarInput.type = "file";
+avatarInput.accept = "image/*";
+avatarInput.style.display = "none";
+document.body.appendChild(avatarInput);
+
+const savedAvatar = localStorage.getItem("profileAvatar");
+if (savedAvatar) avatar.innerHTML = `<img src="${savedAvatar}">`;
+
+avatar.onclick = () => avatarInput.click();
+
+avatarInput.onchange = () => {
+  const file = avatarInput.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    localStorage.setItem("profileAvatar", reader.result);
+    avatar.innerHTML = `<img src="${reader.result}">`;
+  };
+  reader.readAsDataURL(file);
+};
+</script>
+
+<!-- ================= ADD ONLY: ANIMATIONS CSS ================= -->
+<style>
+.home-taskbar button {
+  transition: all 0.35s ease;
+}
+
+.home-taskbar button.active {
+  background: linear-gradient(135deg,#2563eb,#3b82f6);
+  color: white;
+  transform: translateX(6px);
+  box-shadow: 0 12px 30px rgba(37,99,235,0.45);
+}
+
+.home-taskbar button:hover:not(.active) {
+  transform: translateX(4px);
+}
+
+.profile-avatar {
+  position: relative;
+  cursor: pointer;
+  animation: glow 3s infinite alternate;
+}
+
+.profile-avatar::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(37,99,235,0.6);
+  animation: pulse 2s infinite;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@keyframes pulse {
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 0 rgba(37,99,235,0.2); }
+  to { box-shadow: 0 0 30px rgba(37,99,235,0.6); }
+}
+
+.sos-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.sos-overlay.show {
+  display: flex;
+}
+
+.sos-box {
+  width: 340px;
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+}
+</style>
+
 </body>
 </html>

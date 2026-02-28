@@ -1,3 +1,5 @@
+import { getFirestore } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 // Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -7,17 +9,20 @@ import {
 
 // 🔹 YOUR FIREBASE CONFIG (already correct)
 const firebaseConfig = {
-    apiKey: "AIzaSyBAPHcdSk9WQYFTZjefEkJTYXpLoDZ6Bg",
-    authDomain: "flood-rescue-app-1cba1.firebaseapp.com",
-    projectId: "flood-rescue-app-1cba1",
-    storageBucket: "flood-rescue-app-1cba1.appspot.com",
-    messagingSenderId: "213864775528",
-    appId: "1:213864775528:web:56c931dee8cf759324a0dd"
+  apiKey: "AIzaSyDDc8peb4i19Rku8smgr5BwLxt0WMB9Gjw",
+  authDomain: "flood-rescue-guide-ac3a8.firebaseapp.com",
+  projectId: "flood-rescue-guide-ac3a8",
+  storageBucket: "flood-rescue-guide-ac3a8.firebasestorage.app",
+  messagingSenderId: "635830559756",
+  appId: "1:635830559756:web:cf886a96ac8b16f47dba29",
+  measurementId: "G-B8PWHJCJXT"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
+export { db };
 
 // 🔹 RESET PASSWORD FUNCTION
 window.resetPassword = function () {
@@ -39,4 +44,7 @@ window.resetPassword = function () {
             message.style.color = "red";
             message.innerText = error.message;
         });
+        
+
+        
 };

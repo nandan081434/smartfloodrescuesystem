@@ -1,49 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Flood Rescue Guidance System</title>
+<meta charset="UTF-8">
+<title>Flood Rescue App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/style.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  overflow: hidden;
+}
+
+/* Background animated glow */
+body::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,150,255,0.3), transparent 70%);
+  top: -150px;
+  right: -150px;
+  animation: rotateGlow 15s linear infinite;
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.container {
+  width: 400px;
+  padding: 55px 45px;
+  border-radius: 25px;
+  text-align: center;
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+  animation: fadeIn 1s ease;
+  position: relative;
+  z-index: 2;
+}
+
+/* Logo floating effect */
+.logo {
+  width: 150px;
+  margin-bottom: 20px;
+  animation: floatLogo 3s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+h1 {
+  color: #ffffff;
+  font-size: 26px;
+  margin-bottom: 35px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  margin: 15px 0;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Login Button */
+.login {
+  background: linear-gradient(45deg, #4CAF50, #1b5e20);
+  color: white;
+}
+
+/* Signup Button */
+.signup {
+  background: linear-gradient(45deg, #2196F3, #0d47a1);
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Entry animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 450px) {
+  .container {
+    width: 90%;
+    padding: 45px 25px;
+  }
+}
+</style>
+
 </head>
-<body class="welcome-bg">
 
-    <div class="welcome-card">
+<body>
 
-        <!-- LOGO -->
-        <img src="assets/logo.png.png" alt="Logo" class="welcome-logo">
+<div class="container">
 
-        <!-- APP NAME -->
-        <h1 class="welcome-title">
-            Flood Rescue Guidance<br>System
-        </h1>
+  <img src="assets/logo.png" class="logo" alt="App Logo">
 
-        <!-- DESCRIPTION -->
-        <p class="welcome-desc">
-            A smart map-based system to guide rescue teams and citizens during
-            flood emergencies.
-        </p>
+  <h1>Flood Rescue App</h1>
 
-        <!-- LOGIN -->
-        <a href="login.html" class="btn login-btn">Login</a>
+  <button class="btn login" onclick="goLogin()">Login</button>
+  <button class="btn signup" onclick="goSignup()">Sign Up</button>
 
-        <!-- SIGN UP -->
-        <a href="signup.html" class="btn signup-btn">Sign Up</a>
+  <div class="footer">
+    Smart Flood Rescue Guidance System
+  </div>
 
-        <!-- GOOGLE SIGN IN -->
-        <button class="btn google-btn" onclick="googleSignIn()">
-            <img
-                src="https://developers.google.com/identity/images/g-logo.png"
-                alt="Google"
-            />
-            Sign in with Google
-        </button>
+</div>
 
-    </div>
+<script>
+function goLogin() {
+  window.location.href = "login.html";
+}
 
-    <!-- 🔥 Firebase Google Auth Script -->
-    <script type="module" src="js/firebase-auth.js"></script>
+function goSignup() {
+  window.location.href = "signup.html";
+}
+</script>
 
 </body>
 </html>
-

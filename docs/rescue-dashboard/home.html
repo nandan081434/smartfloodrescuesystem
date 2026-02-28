@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rescue Dashboard | Flood Rescue</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+}
+
+#map{
+  height:100vh;
+  width:100vw;
+}
+
+.live-count-box{
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:#b91c1c;
+    color:white;
+    padding:14px 20px;
+    border-radius:18px;
+    font-weight:600;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    z-index:1000;
+}
+
+.sidebar{
+    position:absolute;
+    top:20px;
+    left:20px;
+    width:200px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    z-index:1000;
+}
+
+.app-title{
+    color:#0ea5e9;
+    font-size:18px;
+    font-weight:600;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.menu-btn,
+.menu-item{
+    height:64px;
+    border:none;
+    border-radius:22px;
+    font-size:16px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-left:22px;
+    color:#fff;
+    background:rgba(15,23,42,0.85);
+    backdrop-filter:blur(12px);
+    box-shadow:0 10px 26px rgba(0,0,0,0.45);
+    transition:0.3s;
+}
+
+.menu-btn:hover,
+.menu-item:hover{
+    transform:translateX(6px) scale(1.03);
+    background:#2563eb;
+}
+
+.icon{
+    font-size:22px;
+}
+
+.menu-btn.active{
+    background:#2563eb !important;
+}
+</style>
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<div class="live-count-box">
+    🚨 Live SOS: <span id="liveSosCount">0</span>
+</div>
+
+<div class="sidebar">
+    <div class="app-title">🌊 Flood Rescue</div>
+
+    <div class="menu-item" onclick="location.href='profile/profile1.html'">
+        <span class="icon">👤</span>
+        <p>Profile</p>
+    </div>
+
+    <!-- ✅ AI BUTTON -->
+    <button class="menu-btn" onclick="openAI()">
+        <span class="icon">🤖</span> AI Suggestion
+    </button>
+
+    <button class="menu-btn active" onclick="location.href='home.html'">
+        <span class="icon">🏠</span> Home
+    </button>
+
+    <button class="menu-btn" onclick="location.href='check sos/rescue.html'">
+        <span class="icon">🚨</span> CHECK SOS
+    </button>
+<button class="menu-btn" onclick="goToRescueAlerts()">🔔  Alerts</button>
+
+<script>
+function goToRescueAlerts() {
+    window.location.href = "../citizen-home/alerts/rescue-alerts.html";
+}
+</script>
+
+
+</div>
+
+<!-- ================= FIREBASE + MAP SCRIPT (UNCHANGED) ================= -->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDDc8peb4i19Rku8smgr5BwLxt0WMB9Gjw",
+  authDomain: "flood-rescue-guide-ac3a8.firebaseapp.com",
+  projectId: "flood-rescue-guide-ac3a8",
+  storageBucket: "flood-rescue-guide-ac3a8.appspot.com",
+  messagingSenderId: "635830559756",
+  appId: "1:635830559756:web:xxxxxx"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const map = L.map('map').setView([18.3252,78.3276], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+  attribution:'© OpenStreetMap contributors'
+}).addTo(map);
+
+let markers = {};
+
+onSnapshot(collection(db,"sos"), (snapshot)=>{
+    let activeCount = 0;
+
+    Object.values(markers).forEach(marker=>{
+        map.removeLayer(marker);
+    });
+    markers = {};
+
+    snapshot.forEach(docSnap=>{
+        const data = docSnap.data();
+        const id = docSnap.id;
+
+        if(data.status && data.status.toLowerCase() === "completed"){
+            return;
+        }
+
+        activeCount++;
+
+        const lat = parseFloat(data.lat);
+        const lng = parseFloat(data.lng);
+
+        if(isNaN(lat) || isNaN(lng)) return;
+
+        const marker = L.marker([lat,lng]).addTo(map);
+        markers[id] = marker;
+    });
+
+    document.getElementById("liveSosCount").innerText = activeCount;
+});
+
+</script>
+
+<!-- ✅ CORRECTED AI REDIRECT FUNCTION -->
+<script>
+function openAI() {
+    const role = localStorage.getItem("userRole");
+
+    if (role === "rescue") {
+        window.location.href = "../citizen-home/ai_project/ai_rescue/AI_APP/frontend/index.html";
+    } 
+    else if (role === "citizen") {
+        window.location.href = "../citizen-home/ai_project/ai_citizen/AI_APP/frontend/index.html";
+    } 
+    else {
+        alert("Please login first");
+        window.location.href = "../login.html";
+    }
+}
+</script>
+
+</body>
+</html>

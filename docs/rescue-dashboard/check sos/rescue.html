@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🚑 Rescue Team Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f9;
+      padding: 20px;
+      padding-left: 280px; /* space for larger sidebar */
+    }
+
+    /* ================= LARGE FLOATING SIDEBAR ================= */
+
+    .home-taskbar{
+      position:fixed;
+      top:120px;
+      left:30px;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+      z-index:2000;
+    }
+
+    .home-taskbar button{
+      width:230px;
+      height:68px;
+      background:#030b22;
+      color:#ffffff;
+      border:none;
+      border-radius:28px;
+      font-size:17px;
+      font-weight:500;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding-left:28px;
+      cursor:pointer;
+
+      box-shadow:
+        0 20px 45px rgba(0,0,0,0.35),
+        0 8px 18px rgba(0,0,0,0.2);
+
+      transition:all 0.35s ease;
+    }
+
+    .home-taskbar button:hover{
+      transform:translateX(10px) scale(1.05);
+      background:#111c3b;
+    }
+
+    /* ACTIVE (CHECK SOS ONLY) */
+    .home-taskbar button.active{
+      background:linear-gradient(135deg,#2563eb,#3b82f6);
+      animation:activePulse 2s infinite;
+      box-shadow:
+        0 0 0 0 rgba(59,130,246,0.6),
+        0 25px 60px rgba(37,99,235,0.7);
+    }
+
+    @keyframes activePulse{
+      0%{
+        box-shadow:
+          0 0 0 0 rgba(59,130,246,0.6),
+          0 25px 60px rgba(37,99,235,0.7);
+      }
+      70%{
+        box-shadow:
+          0 0 0 18px rgba(59,130,246,0),
+          0 25px 60px rgba(37,99,235,0.7);
+      }
+      100%{
+        box-shadow:
+          0 0 0 0 rgba(59,130,246,0),
+          0 25px 60px rgba(37,99,235,0.7);
+      }
+    }
+
+    /* ================= ORIGINAL CONTENT STYLES ================= */
+
+    .top-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+
+    select{
+      padding:6px 10px;
+      border-radius:6px;
+      border:1px solid #ccc;
+      font-size:14px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin: 12px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .high { border-left: 8px solid red; }
+    .medium { border-left: 8px solid orange; }
+    .low { border-left: 8px solid green; }
+
+    button {
+      margin-top: 8px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .active-btn { background: #007bff; }
+    .complete-btn { background: green; }
+
+  </style>
+</head>
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="home-taskbar">
+  <button onclick="location.href='../profile/profile1.html'">👤 Profile</button>
+  <button>💡 Suggestion Box</button>
+  <button onclick="location.href='../home.html'">🏠 Dashboard</button>
+
+  <!-- ONLY THIS BUTTON ANIMATES -->
+  <button class="active" onclick="location.href='sos.html'">🚨 CHECK SOS</button>
+
+  <button>🔔 Alerts</button>
+</div>
+
+<!-- ================= ORIGINAL CONTENT ================= -->
+
+<div class="top-bar">
+  <h2>🚑 Rescue Team Dashboard</h2>
+
+  <select id="filterSelect">
+    <option value="all">All</option>
+    <option value="pending">Pending</option>
+    <option value="active">Active</option>
+    <option value="completed">Completed</option>
+    <option value="high">High Priority</option>
+    <option value="medium">Medium Priority</option>
+    <option value="low">Low Priority</option>
+  </select>
+</div>
+
+<div id="sosList"></div>
+
+<script src="rescue.js"></script>
+
+</body>
+</html>

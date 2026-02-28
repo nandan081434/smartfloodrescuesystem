@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flood Alert</title>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="alerts.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+
+<body>
+  <button class="back-btn" onclick="goBackHome()">⬅ Back</button>
+  <script>
+function goBackHome() {
+    window.location.href = "../home.html";
+}
+</script>
+
+  <!-- ===================== -->
+  <!-- TOP STATUS PANEL -->
+  <!-- ===================== -->
+  <div class="top-panel">
+    
+    <div id="alertBox" class="alert SAFE">SAFE</div>
+
+    <div class="info">
+      🌧 Rainfall: <span id="rainfallValue">0</span> mm |
+      ⏳ Impact In: <span id="countdown">--</span>
+    </div>
+
+    <button onclick="checkFlood()">Check Flood</button>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- FLOOD ALERTS SECTION -->
+  <!-- ===================== -->
+  <div id="alertsContainer" class="alerts-container"></div>
+
+  <!-- ===================== -->
+  <!-- MAP -->
+  <!-- ===================== -->
+  <div id="map"></div>
+
+  <!-- ===================== -->
+  <!-- RESCUE ALERTS SECTION -->
+  <!-- ===================== -->
+  <div class="rescue-section">
+    <h2>🚨 Rescue Alerts</h2>
+    <div id="rescueAlerts"></div>
+  </div>
+
+  <!-- ===================== -->
+  <!-- SCRIPTS -->
+  <!-- ===================== -->
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- ONLY ONE MODULE FILE -->
+  <script type="module" src="alerts.js"></script>
+
+</body>
+</html>

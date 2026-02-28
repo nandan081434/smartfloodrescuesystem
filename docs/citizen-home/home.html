@@ -69,7 +69,6 @@ body{
     transition:0.3s;
 }
 
-/* PROFILE ITEM FIX */
 .menu-item p{
     margin:0;
 }
@@ -114,12 +113,28 @@ body{
     70%{opacity:1;}
     100%{opacity:0; visibility:hidden;}
 }
+
+/* PROFILE IMAGE MARKER */
+.user-marker{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    overflow:hidden;
+    border:3px solid #ef4444;
+    background:white;
+}
+
+.user-marker img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ✅ LOGIN SUCCESS BAR (ADDED) -->
+<!-- LOGIN SUCCESS BAR -->
 <div id="loginSuccessBar" style="
   position: fixed;
   top: 0;
@@ -147,21 +162,33 @@ body{
         <p>Profile</p>
     </div>
 
-    <button class="menu-btn">
-        <span class="icon">💡</span> Suggestion Box
-    </button>
+    <button class="menu-btn" onclick="goToSuggestion()">
+    <span class="icon">💡</span> Suggestion Box
+</button>
+<script>
+function goToSuggestion() {
+    window.location.href = "ai_project/ai_citizen/SMART_FLOOD_RESCUE_APP/frontend/index.html";
+}
+</script>
 
     <button class="menu-btn">
         <span class="icon">🏠</span> Home
     </button>
 
-    <button class="menu-btn sos">
+    <!-- SOS BUTTON -->
+    <button class="menu-btn sos" onclick="openSOS()">
         <span class="icon">🚨</span> SOS
     </button>
 
-    <button class="menu-btn">
-        <span class="icon">🔔</span> Alerts
-    </button>
+<button class="menu-btn" onclick="goToCitizenAlerts()">
+    <span class="icon">🔔</span> Alerts
+</button>
+
+<script>
+function goToCitizenAlerts() {
+    window.location.href = "alerts/alerts.html";
+}
+</script>
 </div>
 
 <!-- MESSAGE -->
@@ -170,30 +197,56 @@ body{
 </div>
 
 <script>
-/* MAP */
+/* MAP INIT */
 const map = L.map('map').setView([18.3221, 78.3033], 14);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+/* DEFAULT MARKER */
 L.marker([18.3221, 78.3033])
  .addTo(map)
- .bindPopup("📍 Your location")
- .openPopup();
+ .bindPopup("📍 Your location");
 
-/* REMOVE MESSAGE AFTER 2 SECONDS */
+/* PROFILE IMAGE MARKER */
+const avatar = localStorage.getItem("profileAvatar");
+
+if (avatar && avatar.trim() !== "") {
+  const profileIcon = L.divIcon({
+    className: "",
+    html: `
+      <div class="user-marker">
+        <img src="${avatar}">
+      </div>
+    `,
+    iconSize: [52, 52],
+    iconAnchor: [26, 52]
+  });
+
+  L.marker([18.3221, 78.3033], { icon: profileIcon })
+    .addTo(map)
+    .bindPopup("👤 You");
+}
+
+/* REMOVE MESSAGE */
 setTimeout(()=>{
     const msg=document.getElementById("topInfo");
     if(msg) msg.remove();
 },2000);
 
-/* ✅ PROFILE NAVIGATION */
-function openProfile() {
+/* NAVIGATION */
+function openProfile(){
     window.location.href = "profile.html";
 }
 
-/* ✅ SHOW LOGIN SUCCESS WITH REAL EMAIL (ADDED) */
+/* SOS NAVIGATION */
+function openSOS(){
+    localStorage.setItem("sosActive","true"); // ✅ ADD
+    window.location.href = "sos.html";
+}
+
+/* LOGIN SUCCESS BAR */
 const floodUser = JSON.parse(localStorage.getItem("floodUser"));
 
 if (floodUser && floodUser.email) {
@@ -204,6 +257,87 @@ if (floodUser && floodUser.email) {
     setTimeout(() => {
         bar.style.display = "none";
     }, 2000);
+}
+
+/* =================================================
+   ✅ ADD ONLY: LIVE GPS (ALWAYS ON)
+================================================= */
+let liveMarker = null;
+let accuracyCircle = null;
+
+navigator.geolocation.watchPosition(
+    (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const acc = pos.coords.accuracy;
+
+        if(liveMarker){
+            liveMarker.setLatLng([lat,lng]);
+        }else{
+            liveMarker = L.marker([lat,lng])
+                .addTo(map)
+                .bindPopup("📍 Live location");
+        }
+
+        if(accuracyCircle){
+            accuracyCircle.setLatLng([lat,lng]);
+            accuracyCircle.setRadius(acc);
+        }else{
+            accuracyCircle = L.circle([lat,lng],{
+                radius:acc,
+                color:"#2563eb",
+                fillColor:"#3b82f6",
+                fillOpacity:0.2
+            }).addTo(map);
+        }
+    },
+    ()=>{},
+    {enableHighAccuracy:true}
+);
+
+/* =================================================
+   ✅ ADD ONLY: MOVEMENT + STOP (ONLY AFTER SOS)
+================================================= */
+let sosActive = localStorage.getItem("sosActive")==="true";
+
+if(sosActive){
+
+    let path = [];
+    let trail = L.polyline([],{
+        color:"#2563eb",
+        weight:4
+    }).addTo(map);
+
+    let lastMove = Date.now();
+    let lastPos = null;
+
+    navigator.geolocation.watchPosition(
+        (pos)=>{
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const point = [lat,lng];
+
+            if(path.length===0 || map.distance(path[path.length-1],point)>5){
+                path.push(point);
+                trail.setLatLngs(path);
+                lastMove = Date.now();
+                lastPos = {lat,lng};
+            }
+
+            map.setView(point,map.getZoom(),{animate:true});
+        }
+    );
+
+    setInterval(()=>{
+        if(Date.now()-lastMove>60000){
+            console.warn("⚠️ User not moving for 60 seconds");
+        }
+    },10000);
+}
+</script>
+<script>
+function openAlerts() {
+    window.location.href = "alerts/alerts.html";
 }
 </script>
 

@@ -116,7 +116,16 @@ button:disabled{
 <!-- FIREBASE SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  doc, 
+  setDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDDc8peb4i19Rku8smgr5BwLxt0WMB9Gjw",
@@ -129,14 +138,18 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 window.signup = function () {
   const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const location = document.getElementById("location").value.trim();
+  const role = document.getElementById("role").value;
   const password = document.getElementById("password").value;
   const confirm = document.getElementById("confirm").value;
   const btn = document.getElementById("signupBtn");
 
-  if(!email || !password || !confirm){
+  if(!email || !password || !confirm || !phone || !location){
     alert("Fill all fields");
     return;
   }
@@ -149,11 +162,35 @@ window.signup = function () {
   btn.disabled = true;
 
   createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then(async (userCredential) => {
+
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        email: email,
+        phone: phone,
+        location: location,
+        role: role,
+        createdAt: new Date()
+      });
+
+      /* ===== ADDED: SAVE SESSION ROLE ===== */
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("userEmail", email);
+      /* ===================================== */
+
       document.getElementById("successBar").style.display = "block";
 
       setTimeout(() => {
-        window.location.href = "./citizen-home/home.html";
+
+        /* ===== ROLE BASED REDIRECT ===== */
+        if(role === "citizen"){
+          window.location.href = "./citizen-home/home.html";
+        }
+        else if(role === "rescue"){
+          window.location.href = "./rescue-dashboard/home.html";
+        }
+
       }, 1500);
     })
     .catch(err => {

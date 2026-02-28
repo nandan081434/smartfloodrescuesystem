@@ -1,0 +1,32 @@
+<body>
+
+<div class="dashboard">
+      <link rel="stylesheet" href="rescue-alerts.css">
+
+  <!-- LEFT PANEL -->
+  <div class="panel">
+    <h2>🚨 Rescue Team Alert Panel</h2>
+
+    <input type="text" id="title" placeholder="Alert Title">
+    <textarea id="message" placeholder="Alert Message"></textarea>
+
+    <select id="type">
+      <option value="emergency">Emergency</option>
+      <option value="warning">Warning</option>
+      <option value="info">Information</option>
+    </select>
+
+    <button id="sendBtn">Send Alert</button>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="alerts-section">
+    <h2>📋 All Alerts</h2>
+    <div id="alertsList" class="alerts-list"></div>
+  </div>
+
+</div>
+
+<script type="module" src="rescue-alerts.js"></script>
+
+</body>

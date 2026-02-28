@@ -1,0 +1,214 @@
+/* ===============================
+   GLOBAL RESET
+================================ */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  display:flex;
+  background:#f4f6f9;
+}
+
+/* ===============================
+   SIDEBAR
+================================ */
+.sidebar{
+  width:240px;
+  min-height:100vh;
+  padding:25px 15px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* DEFAULT BUTTONS (BLACK) */
+.menu-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 18px;
+  border-radius:18px;
+  text-decoration:none;
+  background:#020617; /* deep black */
+  color:#ffffff;
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  position:relative;
+  overflow:hidden;
+}
+
+.menu-item .icon{
+  font-size:18px;
+}
+.menu-item .text{
+  font-size:15px;
+}
+
+/* ===============================
+   MAIN PAGE
+================================ */
+.sos-page{
+  flex:1;
+  max-width:650px;
+  margin:auto;
+  padding:20px;
+}
+
+/* ===============================
+   FORM & HISTORY
+================================ */
+.sos-form,
+.sos-history{
+  background:#ffffff;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.1);
+  margin-bottom:25px;
+}
+
+.sos-form h2,
+.sos-history h3{
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.sos-form input{
+  width:100%;
+  padding:12px;
+  margin-bottom:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+.sos-form button{
+  width:100%;
+  padding:13px;
+  background:#e63946;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ===============================
+   SOS HISTORY
+================================ */
+.sos-card{
+  padding:14px;
+  border-bottom:1px solid #eee;
+}
+.sos-card:last-child{ border-bottom:none; }
+
+.status-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
+}
+
+.status{
+  padding:6px 14px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+/* STATUS COLORS */
+.active{
+  background:#dbeafe;
+  color:#1e3a8a;
+}
+.pending{
+  background:#fee2e2;
+  color:#7f1d1d;
+}
+.completed{
+  background:#d1fae5;
+  color:#065f46;
+}
+
+.toggle-btn{
+  padding:6px 14px;
+  border-radius:10px;
+  border:1px solid #2563eb;
+  background:#fff;
+  color:#2563eb;
+  cursor:pointer;
+}
+
+.no-history{
+  color:#6b7280;
+  font-style:italic;
+}
+
+/* =====================================================
+   🔵 SOS DEFAULT / ACTIVE – BLUE PULSE ANIMATION
+===================================================== */
+.menu-item.sos.sos-alert-default{
+  background:#1e3a8a;
+  animation:bluePulse 2.2s infinite ease-in-out;
+  box-shadow:
+    0 0 12px rgba(59,130,246,0.8),
+    0 0 30px rgba(59,130,246,0.6),
+    0 0 60px rgba(59,130,246,0.45);
+}
+
+@keyframes bluePulse{
+  0%{ transform:scale(1); }
+  50%{ transform:scale(1.06); }
+  100%{ transform:scale(1); }
+}
+
+/* =====================================================
+   🔴 SOS PENDING – REAL HEARTBEAT ANIMATION
+   (MATCHES YOUR IMAGE / VIDEO)
+===================================================== */
+.menu-item.sos.sos-alert-pending{
+  background:#7f1d1d;
+  animation:heartbeatCore 1.3s infinite;
+  box-shadow:
+    0 0 18px rgba(220,38,38,1),
+    0 0 45px rgba(220,38,38,0.85),
+    0 0 90px rgba(220,38,38,0.7);
+}
+
+/* OUTER HEARTBEAT WAVE */
+.menu-item.sos.sos-alert-pending::before{
+  content:"";
+  position:absolute;
+  inset:-18px;
+  border-radius:26px;
+  background:rgba(220,38,38,0.6);
+  filter:blur(26px);
+  z-index:-1;
+  animation:heartbeatWave 1.3s infinite;
+}
+
+/* HEARTBEAT SCALE */
+@keyframes heartbeatCore{
+  0%   { transform:scale(1); }
+  20%  { transform:scale(1.12); }
+  40%  { transform:scale(1); }
+  60%  { transform:scale(1.08); }
+  100% { transform:scale(1); }
+}
+
+/* HEARTBEAT GLOW WAVE */
+@keyframes heartbeatWave{
+  0%{
+    transform:scale(0.85);
+    opacity:0.9;
+  }
+  50%{
+    transform:scale(1.35);
+    opacity:0.45;
+  }
+  100%{
+    transform:scale(1.7);
+    opacity:0;
+  }
+}

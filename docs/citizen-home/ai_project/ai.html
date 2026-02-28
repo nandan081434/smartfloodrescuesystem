@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI System</title>
+</head>
+
+<body>
+
+<script>
+const role = localStorage.getItem("userRole");
+
+if (role === "rescue") {
+    window.location.href = "ai_rescue/AI_APP/frontend/index.html";
+} 
+else if (role === "citizen") {
+    window.location.href = "ai_citizen/AI_APP/frontend/index.html";
+} 
+else {
+    alert("Please login first");
+    window.location.href = "../../login.html";
+}
+</script>
+
+</body>
+</html>

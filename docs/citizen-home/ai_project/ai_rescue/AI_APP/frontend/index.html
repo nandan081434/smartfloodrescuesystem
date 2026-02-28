@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 Flood Safety AI & Rescue</title>
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet Map -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+</head>
+<body>
+
+<!-- ======================================================
+                    MENU SCREEN
+====================================================== -->
+<div id="menu-screen" class="screen">
+
+    <div class="menu-header">
+        <h1><i class="fas fa-water"></i> Flood Safety AI</h1>
+        <p class="subtitle">
+            Intelligent Flood Safety & Emergency Response System
+        </p>
+    </div>
+
+    <div class="location-info">
+        <p id="location-status">
+            <i class="fas fa-map-marker-alt"></i>
+            Detecting your location...
+        </p>
+        <p id="coordinates" class="coordinates"></p>
+    </div>
+
+    <div class="risk-badge">
+        <span class="risk-label">Risk Level:</span>
+        <span class="risk-value" id="risk-level">Checking...</span>
+    </div>
+
+    <div class="menu-options">
+
+        <!-- Emergency Rescue -->
+        <div class="menu-card emergency" onclick="showRescue()">
+            <i class="fas fa-siren-on"></i>
+            <h3>Emergency Rescue</h3>
+            <p>View affected areas & guide rescue teams</p>
+            <span class="menu-tag urgent">URGENT</span>
+        </div>
+
+        <!-- Quick Safety Check -->
+        <div class="menu-card safety-check" onclick="showSafety()">
+            <i class="fas fa-shield-check"></i>
+            <h3>Quick Safety Check</h3>
+            <p>Instant flood risk assessment</p>
+            <span class="menu-tag info">INSTANT</span>
+        </div>
+
+    </div>
+
+</div>
+<!-- ======================================================
+                EMERGENCY RESCUE SCREEN
+====================================================== -->
+<div id="rescue-screen" class="screen hidden">
+
+    <div class="screen-header">
+      <button class="back-btn" onclick="goBackToMenu()">
+            ← Back to Menu
+        </button>
+        <h2>🚨 Emergency Rescue Control</h2>
+    </div>
+
+    <div class="rescue-container single">
+
+        <div class="area-table-section full-width">
+            <h3>⚠️ Affected Areas</h3>
+
+            <table class="area-table">
+                <thead>
+                <tr>
+                    <th>Area Name</th>
+                    <th>Grid ID</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>Old Bus Stand Area</td>
+                    <td>GRID_101</td>
+                    <td>
+                        <button class="direct-btn"
+                                onclick="directToArea('GRID_101')">
+                            Direct →
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>River Side Colony</td>
+                    <td>GRID_102</td>
+                    <td>
+                        <button class="direct-btn"
+                                onclick="directToArea('GRID_102')">
+                            Direct →
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= RESCUE OPERATION SCREEN ================= -->
+<div id="operation-screen" class="screen">
+
+    <div class="screen-header">
+        <button class="back-btn" onclick="showRescue()">
+            ← Back to Areas
+        </button>
+        <h2>🚨 Rescue Operation View</h2>
+    </div>
+
+    <!-- FULL SCREEN MAP -->
+    <div id="map-container">
+        <div id="map"></div>
+
+        <!-- Start Rescue Button (OVERLAY ON MAP) -->
+        <div id="start-rescue-container" class="hidden">
+            <button onclick="startRescueOperation()" class="start-rescue-btn">
+                🚨 Start Rescue Operation
+            </button>
+        </div>
+
+        <!-- Rescue Details Panel (OVERLAY ON MAP) -->
+        <div id="rescue-details-panel" class="hidden">
+            <h3>🧍 People Affected</h3>
+            <table>
+                <tr><th>Adults</th><th>Children</th><th>Elderly</th></tr>
+                <tr><td>12</td><td>5</td><td>3</td></tr>
+            </table>
+
+            <h3>🚑 Resources Required</h3>
+            <table>
+                <tr><th>Item</th><th>Quantity</th></tr>
+                <tr><td>Boats</td><td>2</td></tr>
+                <tr><td>Life Jackets</td><td>25</td></tr>
+                <tr><td>Medical Kits</td><td>4</td></tr>
+            </table>
+
+            <h3>📋 Rescue Status</h3>
+            <p>Rescue Started</p>
+        </div>
+    </div>
+    <!-- RESCUE FIELD AI OVERLAY -->
+<div id="rescue-ai-overlay" class="rescue-ai-overlay">
+    <div class="ai-header">🧠 Rescue Field AI</div>
+
+    <div id="rescue-ai-messages" class="ai-messages">
+        <div class="ai-bot-msg">
+            Ask me about evacuation, water level, or rescue priority.
+        </div>
+    </div>
+
+    <div class="ai-input-box">
+        <input type="text"
+               id="rescue-ai-input"
+               placeholder="Ask AI..."
+               onkeypress="if(event.key==='Enter') sendRescueAIMessage()">
+        <button onclick="sendRescueAIMessage()">➤</button>
+    </div>
+</div>
+
+</div>
+
+
+<!-- ======================================================
+                    CHAT SCREEN
+====================================================== -->
+<!-- ======================================================
+                SAFETY CHECK SCREEN
+====================================================== -->
+<div id="safety-screen" class="screen hidden">
+
+    <div class="safety-wrapper">
+
+       <div class="safety-header">
+    <button class="back-btn" onclick="goBackToMenu()">← Back to Menu</button>
+    <h2 class="center-title">Area Risk & Live Monitoring</h2>
+</div>
+
+        <div class="table-card">
+            <table class="area-table">
+                <thead>
+                    <tr>
+                        <th>Area Name</th>
+                        <th style="text-align:center;">Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Old Bus Stand Area</td>
+                        <td style="text-align:center;">
+                            <button class="info-btn" onclick="toggleAreaInfo('GRID_101')">
+                                View Info →
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr id="info-GRID_101" class="hidden">
+                        <td colspan="2">
+                            <div class="area-details"></div>
+                        </td>
+                    </tr>
+                    <tr>
+    <td>River Side Colony</td>
+    <td style="text-align:center;">
+        <button class="info-btn">View Info →</button>
+    </td>
+</tr>
+
+<tr>
+    <td>Lake View Road</td>
+    <td style="text-align:center;">
+        <button class="info-btn">View Info →</button>
+    </td>
+</tr>
+
+<tr>
+    <td>Kamaraj Nagar</td>
+    <td style="text-align:center;">
+        <button class="info-btn">View Info →</button>
+    </td>
+</tr>
+
+<tr>
+    <td>Market Street Zone</td>
+    <td style="text-align:center;">
+        <button class="info-btn">View Info →</button>
+    </td>
+</tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<!-- ======================================================
+                    LOADING
+====================================================== -->
+<div id="loading" class="loading-overlay hidden">
+    <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <p>Processing…</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script src="safety_ai.js"></script>
+
+<button class="top-btn" onclick="goToRescue()">Go to Rescue Dashboard</button>
+
+<style>
+
+
+.top-btn {
+    position: absolute;
+    top: 22px;      /* moved 2px down */
+    right: 32px;    /* moved 2px left */
+    z-index: 1000;
+    padding: 10px 18px;
+    background: #f00f0f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.top-btn:hover {
+    background: #9b0a0a;
+}
+</style>
+.top-btn:hover {
+    background: #1e40af;
+}
+</style>
+
+<script>
+function goToRescue() {
+    window.location.href = "/docs/rescue-dashboard/home.html";
+}
+</script>
+</body>
+</html>

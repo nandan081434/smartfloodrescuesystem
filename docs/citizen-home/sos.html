@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SOS | Flood Rescue System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sos.css">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+  <a class="menu-item" href="#">👤 Profile</a>
+  <a class="menu-item" href="#">💡 Suggestions</a>
+  <a class="menu-item" href="#">🏠 Home</a>
+
+  <!-- SOS BUTTON -->
+  <a class="menu-item sos" id="sosMenu" href="sos.html">🚨 SOS</a>
+
+  <a class="menu-item" href="#">🔔 Alerts</a>
+</div>
+
+<!-- ===== MAIN PAGE ===== -->
+<div class="sos-page">
+
+  <div class="sos-form">
+    <h2>🚨 Send SOS</h2>
+    <input id="name" placeholder="Enter your name">
+    <input id="location" placeholder="Enter your area / location">
+    <button onclick="sendSOS()">SEND SOS</button>
+  </div>
+
+  <div class="sos-history">
+    <h3>Previous SOS</h3>
+    <div id="history"></div>
+  </div>
+
+</div>
+
+<script src="sos.js"></script>
+</body>
+</html>
